@@ -1291,7 +1291,7 @@ MonoBehaviour:
     name: Boids
     numBoids: 100
     isPredator: 0
-    colour: {r: 1, g: 1, b: 1, a: 1}
+    colour: {r: 0.990566, g: 0, b: 0, a: 1}
     maxSpeed: 25
     maxRotationSpeed: 300
     useRandomRule: 1
