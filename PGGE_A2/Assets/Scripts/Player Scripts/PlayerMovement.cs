@@ -88,12 +88,7 @@ public class PlayerMovement : MonoBehaviour
         if (mAnimator == null) return;
         if (mFollowCameraForward)
         {
-            // rotate Player towards the camera forward.
-            Vector3 eu = Camera.main.transform.rotation.eulerAngles;
-            transform.rotation = Quaternion.RotateTowards(
-                transform.rotation,
-                Quaternion.Euler(0.0f, eu.y, 0.0f),
-                mTurnRate * Time.deltaTime);
+            RotatePlayerToCameraForward();
         }
         else
         {
@@ -145,9 +140,26 @@ public class PlayerMovement : MonoBehaviour
         mVelocity.x = 0.0f;
         mVelocity.z = 0.0f;
 
+        CalculateGravity();
+    }
+
+    void RotatePlayerToCameraForward()
+    {
+        // rotate Player towards the camera forward.
+        Vector3 eu = Camera.main.transform.rotation.eulerAngles;
+        transform.rotation = Quaternion.RotateTowards(
+            transform.rotation,
+            Quaternion.Euler(0.0f, eu.y, 0.0f),
+            mTurnRate * Time.deltaTime);
+    }
+
+    void CalculateGravity()
+    {
         mVelocity.y += mGravity * Time.deltaTime;
         mCharacterController.Move(mVelocity * Time.deltaTime);
         if (mCharacterController.isGrounded && mVelocity.y < 0)
             mVelocity.y = 0f;
     }
+
+
 }

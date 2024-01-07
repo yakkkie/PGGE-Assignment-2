@@ -17,6 +17,7 @@ public class ThirdPersonCamera : MonoBehaviour
     public Transform mPlayer;
 
     TPCBase mThirdPersonCamera;
+
     // Get from Unity Editor.
     public Vector3 mPositionOffset = new Vector3(0.0f, 2.0f, -2.5f);
     public Vector3 mAngleOffset = new Vector3(0.0f, 0.0f, 0.0f);
@@ -35,13 +36,7 @@ public class ThirdPersonCamera : MonoBehaviour
 
     void Start()
     {
-        // Set to CameraConstants class so that other objects can use.
-        CameraConstants.Damping = mDamping;
-        CameraConstants.CameraPositionOffset = mPositionOffset;
-        CameraConstants.CameraAngleOffset = mAngleOffset;
-        CameraConstants.MinPitch = mMinPitch;
-        CameraConstants.MaxPitch = mMaxPitch;
-        CameraConstants.RotationSpeed = mRotationSpeed;
+        SetCameraConstants();
 
     }
 
@@ -77,5 +72,17 @@ public class ThirdPersonCamera : MonoBehaviour
         {
             mThirdPersonCamera.Update();
         }
+    }
+
+
+    void SetCameraConstants()
+    {
+        // Set to CameraConstants class so that other objects can use.
+        CameraConstants.Damping = mDamping;
+        CameraConstants.CameraPositionOffset = mPositionOffset;
+        CameraConstants.CameraAngleOffset = mAngleOffset;
+        CameraConstants.MinPitch = mMinPitch;
+        CameraConstants.MaxPitch = mMaxPitch;
+        CameraConstants.RotationSpeed = mRotationSpeed;
     }
 }

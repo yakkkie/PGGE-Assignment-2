@@ -93,29 +93,7 @@ public class Player : MonoBehaviour
 
     public void Aim()
     {
-        // For Student ----------------------------------------------------------//
-        // Implement the logic of aiming and showing the crosshair
-        // if there is an intersection.
-        //
-        // Hints:
-        // Find the direction of fire.
-        // Find gunpoint as mentioned in the worksheet.
-        // Find the layer mask for objects that you want to intersect with.
-        //
-        // Do the Raycast
-        // if (intersected)
-        // {
-        //     // Draw a line as debug to show the aim of fire in scene view.
-        //     // Find the transformed intersected point to screenspace
-        //     // and then transform the crosshair position to this
-        //     // new position.
-        //     // Enable or set active the crosshair gameobject.
-        // }
-        // else
-        // {
-        //     // Hide or set inactive the crosshair gameobject.
-        // }
-        //-----------------------------------------------------------------------//
+        
 
         Vector3 dir = -mGunTransform.right.normalized;
         // Find gunpoint as mentioned in the worksheet.
@@ -138,19 +116,12 @@ public class Player : MonoBehaviour
             // Find the transformed intersected point to screenspace
             // and then transform the crosshair position to this
             // new position.
-            // first you need the RectTransform component of your mCanvas
-            RectTransform CanvasRect = mCanvas.GetComponent<RectTransform>();
+            
+            RectTransform CanvasRect = GetCanvasRectTransform();
 
             // then you calculate the position of the UI element.
-            // Remember that 0,0 for the mCanvas is at the centre of the screen. 
-            // But WorldToViewPortPoint treats the lower left corner as 0,0. 
-            // Because of this, you need to subtract the height / width 
-            // of the mCanvas * 0.5 to get the correct position.
 
-            Vector2 ViewportPosition = Camera.main.WorldToViewportPoint(hit.point);
-            Vector2 WorldObject_ScreenPosition = new Vector2(
-            ((ViewportPosition.x * CanvasRect.sizeDelta.x) - (CanvasRect.sizeDelta.x * 0.5f)),
-            ((ViewportPosition.y * CanvasRect.sizeDelta.y) - (CanvasRect.sizeDelta.y * 0.5f)));
+            Vector2 WorldObject_ScreenPosition = CalculatePositionOfCrosshair(hit, CanvasRect);
 
             //now you can set the position of the UI element
             mCrossHair.anchoredPosition = WorldObject_ScreenPosition;
@@ -201,6 +172,26 @@ public class Player : MonoBehaviour
             Quaternion.LookRotation(dir) * Quaternion.AngleAxis(90.0f, Vector3.right));
 
         bullet.GetComponent<Rigidbody>().AddForce(dir * mBulletSpeed, ForceMode.Impulse);
+    }
+
+    public RectTransform GetCanvasRectTransform()
+    {
+        return mCanvas.GetComponent<RectTransform>();
+    }
+
+    public Vector2 CalculatePositionOfCrosshair(RaycastHit hit, RectTransform CanvasRect)
+    {
+        // Remember that 0,0 for the mCanvas is at the centre of the screen. 
+        // But WorldToViewPortPoint treats the lower left corner as 0,0. 
+        // Because of this, you need to subtract the height / width 
+        // of the mCanvas * 0.5 to get the correct position.
+
+        Vector2 ViewportPosition = Camera.main.WorldToViewportPoint(hit.point);
+        Vector2 WorldObject_ScreenPosition = new Vector2(
+        ((ViewportPosition.x * CanvasRect.sizeDelta.x) - (CanvasRect.sizeDelta.x * 0.5f)),
+        ((ViewportPosition.y * CanvasRect.sizeDelta.y) - (CanvasRect.sizeDelta.y * 0.5f)));
+
+        return WorldObject_ScreenPosition;
     }
 
     IEnumerator Coroutine_Firing(int id)
