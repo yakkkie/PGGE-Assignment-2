@@ -67,6 +67,7 @@ public class FlockManager : MonoBehaviour
     [NativeDisableContainerSafetyRestriction]
     private NativeArray<ObstacleStruct> obstacles;
     private NativeArray<Vector3> targetDirection;
+    private NativeArray<BoidData> boidDatasLastFrame;
 
 
     private void OnDisable()
@@ -78,6 +79,7 @@ public class FlockManager : MonoBehaviour
         obstacles.Dispose();
         targetVelocity.Dispose();
         boidDatas.Dispose();
+        boidDatasLastFrame.Dispose();
        
     }
 
@@ -96,6 +98,7 @@ public class FlockManager : MonoBehaviour
         transformAccessArray = new TransformAccessArray(0);
         obstacles = new NativeArray<ObstacleStruct>(50, Allocator.Persistent);
         boidDatas = new NativeArray<BoidData>(maxBoids, Allocator.Persistent);
+        boidDatasLastFrame = new NativeArray<BoidData>(maxBoids, Allocator.Persistent);
         targetDirection = new(maxBoids, Allocator.Persistent);
         targetVelocity = new(maxBoids, Allocator.Persistent);
 
@@ -115,6 +118,7 @@ public class FlockManager : MonoBehaviour
     {
         movementJobHandle.Complete();
         HandleInputs();
+        boidDatasLastFrame.CopyFrom(boidDatas);
         movementJob = new MovementJob
         {
             MaxSpeed = maxSpeed,
@@ -236,7 +240,7 @@ public class FlockManager : MonoBehaviour
                     weightSeparation = weightSeparation,
                     separationDistance = separationDistance,
                     weightAlignment = weightAlignment,
-                    boidDatas = boidDatas,
+                    boidDatas = boidDatasLastFrame,
                     targetVelocity = targetVelocity
                     
                 };
