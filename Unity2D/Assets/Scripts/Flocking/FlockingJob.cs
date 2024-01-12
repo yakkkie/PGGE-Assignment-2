@@ -8,7 +8,9 @@ using System.ComponentModel;
 using Unity.Collections;
 using System;
 using Unity.Collections.LowLevel.Unsafe;
+using Unity.Burst;
 
+[BurstCompile]
 public struct FlockingJob : IJobParallelFor
 {
     
@@ -68,6 +70,7 @@ public struct FlockingJob : IJobParallelFor
             separationDir /= separationSpeed;
             separationDir.Normalize();
         }
+
         targetVelocity[i] = flockDir * speed * (useAlignmentRule ? weightAlignment : 0f) 
             + separationDir * separationSpeed * (useSeparationRule ? weightSeparation : 0f) 
             + (steerPos - boidDatas[i].position) * (useCohesionRule ? weightCohesion : 0f);

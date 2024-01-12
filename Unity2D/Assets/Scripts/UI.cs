@@ -21,13 +21,13 @@ public class UI : MonoBehaviour
         {
             int enemyCount = 0;
             int boidCount = 0;
-            foreach (Flock flock in flockBehaviour.flocks)
-            {
-                if (flock.isPredator)
-                    enemyCount += flock.mAutonomous.Count;
-                else
-                    boidCount += flock.mAutonomous.Count;
-            }
+            //foreach (Flock flock in flockBehaviour.flocks)
+            //{
+            //    if (flock.isPredator)
+            //        enemyCount += flock.mAutonomous.Count;
+            //    else
+            //        boidCount += flock.mAutonomous.Count;
+            //}
             boidCount = flockManager.boidsCount;
             textNumBoids.text = "Boids: " + boidCount.ToString();
             textNumEnemies.text = "Predators: " + enemyCount.ToString();

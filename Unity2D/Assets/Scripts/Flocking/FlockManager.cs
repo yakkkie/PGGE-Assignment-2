@@ -23,11 +23,11 @@ public class FlockManager : MonoBehaviour
 
     public float TickDuration = 1.0f;
     public float TickDurationSeparationEnemy = 0.1f;
-    public float TickDurationRandom = 1.0f;
     public float weightCohesion = 1f;
     public float weightAlignment = 1f;
     public float weightSeparation = 1f;
     public float weightAvoidObstacles = 1f;
+    public float weightRandom;
     public float avoidanceRadiusMultiplier = 1f;
     public float visibility = 1f;
     public float separationDistance = 1f;
@@ -36,6 +36,7 @@ public class FlockManager : MonoBehaviour
     public float minY;                     
     public float maxY;
     public float maxSpeed = 5f;
+    public float rotationSpeed;
 
     public int BoidIncr = 100;
     public int NumBatches = 1024;
@@ -56,6 +57,8 @@ public class FlockManager : MonoBehaviour
     private JobHandle flockingJobHandle;
     private JobHandle movementJobHandle;
 
+    private System.Random random;
+
 
     private TransformAccessArray transformAccessArray;
     private NativeArray<BoidData> boidDatas;
@@ -63,7 +66,7 @@ public class FlockManager : MonoBehaviour
     private NativeArray<Vector3> targetVelocity;
     [NativeDisableContainerSafetyRestriction]
     private NativeArray<ObstacleStruct> obstacles;
-    private NativeArray<Vector3> flockDirectionRandom;
+    private NativeArray<Vector3> targetDirection;
 
 
     private void OnDisable()
@@ -71,7 +74,7 @@ public class FlockManager : MonoBehaviour
         movementJobHandle.Complete();
         flockingJobHandle.Complete();
         transformAccessArray.Dispose();
-        flockDirectionRandom.Dispose();
+        targetDirection.Dispose();
         obstacles.Dispose();
         targetVelocity.Dispose();
         boidDatas.Dispose();
@@ -81,7 +84,7 @@ public class FlockManager : MonoBehaviour
 
     void Start()
     {
-        
+        random = new System.Random();
 
 
         minX = Bounds.bounds.min.x; 
@@ -89,12 +92,11 @@ public class FlockManager : MonoBehaviour
         minY = Bounds.bounds.min.y; 
         maxY = Bounds.bounds.max.y;
 
-        Debug.Log(maxX);
 
         transformAccessArray = new TransformAccessArray(0);
         obstacles = new NativeArray<ObstacleStruct>(50, Allocator.Persistent);
         boidDatas = new NativeArray<BoidData>(maxBoids, Allocator.Persistent);
-        flockDirectionRandom = new(maxBoids, Allocator.Persistent);
+        targetDirection = new(maxBoids, Allocator.Persistent);
         targetVelocity = new(maxBoids, Allocator.Persistent);
 
         AddBoids(boidsCount);
@@ -119,16 +121,20 @@ public class FlockManager : MonoBehaviour
             speed = maxSpeed,
             deltaTime = Time.deltaTime,
             bounceWall = true,
-            flockDirection = targetVelocity,
-            flockDirectionRandom = flockDirectionRandom,
-            rotationSpeed = 100f,
+            flockDirection = targetDirection,
+            flockVelocity = targetVelocity,
+            rotationSpeed = rotationSpeed,
             minX = minX,
             maxX = maxX,
             minY = minY,
             maxY = maxY,
             obstacleStructs = obstacles,
             weightAvoidObstacles = weightAvoidObstacles,
-            boidDatas = boidDatas
+            boidDatas = boidDatas,
+            random = new Unity.Mathematics.Random((uint)random.Next()),
+            weightRandom = weightRandom,
+            randomRule = useRandomRule
+
         };
         movementJobHandle = movementJob.Schedule(transformAccessArray);
         JobHandle.ScheduleBatchedJobs();
@@ -217,7 +223,7 @@ public class FlockManager : MonoBehaviour
     {
         while (true)
         {
-            if (useFlocking && useAlignmentRule)
+            if (useFlocking && useAlignmentRule && flockingJobHandle.IsCompleted)
             {
                 flockingJob = new FlockingJob
                 {

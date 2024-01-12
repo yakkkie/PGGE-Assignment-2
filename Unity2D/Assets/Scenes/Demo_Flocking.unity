@@ -706,24 +706,25 @@ MonoBehaviour:
   - {fileID: 281999220}
   - {fileID: 1148214724}
   Bounds: {fileID: 735960364}
-  boidPrefab: {fileID: 1138522166324048232, guid: 1b7bb4e6c0d12884c97216ff0bcde98f, type: 3}
+  boidPrefab: {fileID: 389496565818785944, guid: bd31899942cb39842934997ba56eddc2, type: 3}
   TickDuration: 1
   TickDurationSeparationEnemy: 0.1
-  TickDurationRandom: 1
-  weightCohesion: 1
-  weightAlignment: 3
-  weightSeparation: 6
+  weightCohesion: 5
+  weightAlignment: 5
+  weightSeparation: 5
   weightAvoidObstacles: 10
-  avoidanceRadiusMultiplier: 10
-  visibility: 20
+  weightRandom: 1
+  avoidanceRadiusMultiplier: 5
+  visibility: 10
   separationDistance: 5
   minX: -200
   maxX: 200
   minY: -200
   maxY: 200
   maxSpeed: 25
-  BoidIncr: 100
-  NumBatches: 1
+  rotationSpeed: 100
+  BoidIncr: 1000
+  NumBatches: 1024
   BatchSize: 100
   boidsCount: 1
   maxBoids: 100000
