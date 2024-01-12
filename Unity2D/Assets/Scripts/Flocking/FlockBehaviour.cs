@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Unity.Jobs;
 
 public class FlockBehaviour : MonoBehaviour
 {
@@ -22,8 +23,6 @@ public class FlockBehaviour : MonoBehaviour
     public int BatchSize = 100;
 
     public List<Flock> flocks = new List<Flock>();
-    public QuadTree<Autonomous> quadTree;
-
     void Reset()
     {
         flocks = new List<Flock>()
@@ -34,8 +33,6 @@ public class FlockBehaviour : MonoBehaviour
 
     void Start()
     {
-        quadTree = new QuadTree<Autonomous>(0, new Rect(Bounds.bounds.min.x, Bounds.bounds.min.y, Bounds.bounds.size.x, Bounds.bounds.size.y));
-
         // Randomize obstacles placement.
         for (int i = 0; i < Obstacles.Length; ++i)
         {
@@ -53,8 +50,6 @@ public class FlockBehaviour : MonoBehaviour
         {
             CreateFlock(flock);
         }
-
-        
 
         StartCoroutine(Coroutine_Flocking());
 
@@ -77,16 +72,6 @@ public class FlockBehaviour : MonoBehaviour
 
     void Update()
     {
-        quadTree.Clear();
-        foreach (Flock flock in flocks)
-        {
-            foreach (Autonomous autonomous in flock.mAutonomous)
-            {
-                quadTree.Insert(autonomous, new Rect(autonomous.transform.position.x, autonomous.transform.position.y, 1, 1));
-            }
-        }
-
-
         HandleInputs();
         Rule_CrossBorder();
         Rule_CrossBorder_Obstacles();
@@ -134,6 +119,8 @@ public class FlockBehaviour : MonoBehaviour
         return (a1.transform.position - a2.transform.position).magnitude;
     }
 
+    
+
     void Execute(Flock flock, int i)
     {
         Vector3 flockDir = Vector3.zero;
@@ -148,14 +135,9 @@ public class FlockBehaviour : MonoBehaviour
         Vector3 steerPos = Vector3.zero;
 
         Autonomous curr = flock.mAutonomous[i];
-
-        Rect searchBounds = new Rect(curr.transform.position.x, curr.transform.position.y, flock.visibility, flock.visibility);
-        List<Autonomous> nearbyBoids = new List<Autonomous>();
-        quadTree.Retrieve(nearbyBoids, searchBounds);
-
-        for (int j = 0; j < nearbyBoids.Count; ++j)
+        for (int j = 0; j < flock.numBoids; ++j)
         {
-            Autonomous other = nearbyBoids[j];
+            Autonomous other = flock.mAutonomous[j];
             float dist = Distance(curr, other);
 
             if (i != j && dist < flock.visibility)
@@ -491,6 +473,6 @@ public class FlockBehaviour : MonoBehaviour
             }
         }
     }
+
+    
 }
-
-

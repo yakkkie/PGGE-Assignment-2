@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+
+//wanted to try implementing a simple quad tree
 public class QuadTree<T>
 {
     private int maxObjects = 10;

@@ -8,6 +8,7 @@ public class UI : MonoBehaviour
     public Text textNumEnemies;
 
     public FlockBehaviour flockBehaviour;
+    public FlockManager flockManager;
 
     void Start()
     {
@@ -27,6 +28,7 @@ public class UI : MonoBehaviour
                 else
                     boidCount += flock.mAutonomous.Count;
             }
+            boidCount = flockManager.boidsCount;
             textNumBoids.text = "Boids: " + boidCount.ToString();
             textNumEnemies.text = "Predators: " + enemyCount.ToString();
             yield return new WaitForSeconds(0.5f);

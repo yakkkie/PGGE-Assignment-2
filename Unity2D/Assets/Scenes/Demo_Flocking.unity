@@ -434,6 +434,7 @@ MonoBehaviour:
   textNumBoids: {fileID: 1944975884}
   textNumEnemies: {fileID: 1250291134}
   flockBehaviour: {fileID: 875704704}
+  flockManager: {fileID: 325320864}
 --- !u!1 &123748669
 GameObject:
   m_ObjectHideFlags: 0
@@ -653,6 +654,99 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3535629753052500086, guid: 353523b4e2c05e8478d7ac2a7454c50f, type: 3}
   m_PrefabInstance: {fileID: 3535629752770619138}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &325320863
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 325320865}
+  - component: {fileID: 325320864}
+  m_Layer: 0
+  m_Name: FlockManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &325320864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 325320863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 144b0a83792fdb7439332b2132153283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabObstacles:
+  - {fileID: 1960878367}
+  - {fileID: 417402680}
+  - {fileID: 698900705}
+  - {fileID: 38863963}
+  - {fileID: 7187985}
+  - {fileID: 1181193350}
+  - {fileID: 1135155404}
+  - {fileID: 1313414628}
+  - {fileID: 492645357}
+  - {fileID: 1639766398}
+  - {fileID: 2089558132}
+  - {fileID: 1197083312}
+  - {fileID: 813306668}
+  - {fileID: 1793850234}
+  - {fileID: 1966240455}
+  - {fileID: 1273282684}
+  - {fileID: 1649745664}
+  - {fileID: 1959210453}
+  - {fileID: 2010150270}
+  - {fileID: 281999220}
+  - {fileID: 1148214724}
+  Bounds: {fileID: 735960364}
+  boidPrefab: {fileID: 1138522166324048232, guid: 1b7bb4e6c0d12884c97216ff0bcde98f, type: 3}
+  TickDuration: 1
+  TickDurationSeparationEnemy: 0.1
+  TickDurationRandom: 1
+  weightCohesion: 1
+  weightAlignment: 3
+  weightSeparation: 6
+  weightAvoidObstacles: 10
+  avoidanceRadiusMultiplier: 10
+  visibility: 20
+  separationDistance: 5
+  minX: -200
+  maxX: 200
+  minY: -200
+  maxY: 200
+  maxSpeed: 25
+  BoidIncr: 100
+  NumBatches: 1
+  BatchSize: 100
+  boidsCount: 1
+  maxBoids: 100000
+  useRandomRule: 1
+  useCohesionRule: 1
+  useAlignmentRule: 1
+  useSeparationRule: 1
+  useFlocking: 1
+--- !u!4 &325320865
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 325320863}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -124.64679, y: 124.35372, z: -17.679874}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &417402680 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3535629752915257402, guid: 353523b4e2c05e8478d7ac2a7454c50f, type: 3}
@@ -1244,7 +1338,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &875704704
 MonoBehaviour:
   m_ObjectHideFlags: 0
