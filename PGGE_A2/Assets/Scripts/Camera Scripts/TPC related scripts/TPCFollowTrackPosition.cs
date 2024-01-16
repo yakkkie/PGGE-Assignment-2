@@ -6,8 +6,8 @@ namespace PGGE
 {
     public class TPCFollowTrackPosition : TPCFollow
     {
-        public TPCFollowTrackPosition(Transform cameraTransform, Transform playerTransform)
-            : base(cameraTransform, playerTransform)
+        public TPCFollowTrackPosition(Transform cameraTransform, Transform playerTransform, LayerMask mask, Vector3 offset)
+            : base(cameraTransform, playerTransform, mask, offset)
         {
         }
 

@@ -7,8 +7,8 @@ namespace PGGE
 
     public class TPCFollowTrackPositionAndRotation : TPCFollow
     {
-        public TPCFollowTrackPositionAndRotation(Transform cameraTransform, Transform playerTransform)
-            : base(cameraTransform, playerTransform)
+        public TPCFollowTrackPositionAndRotation(Transform cameraTransform, Transform playerTransform, LayerMask mask, Vector3 offset)
+            : base(cameraTransform, playerTransform, mask, offset)
         {
         }
 

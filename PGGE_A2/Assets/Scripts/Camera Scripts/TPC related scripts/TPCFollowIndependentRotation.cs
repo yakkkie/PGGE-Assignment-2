@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace PGGE
 {
@@ -8,8 +9,8 @@ namespace PGGE
     {
         FixedTouchField mTouchField;
         private float angleX = 0.0f;
-        public TPCFollowIndependentRotation(Transform cameraTransform, Transform playerTransform)
-            : base(cameraTransform, playerTransform)
+        public TPCFollowIndependentRotation(Transform cameraTransform, Transform playerTransform, LayerMask mask, Vector3 offset)
+            : base(cameraTransform, playerTransform, mask, offset)
         {
         }
 
@@ -65,6 +66,8 @@ namespace PGGE
                 Time.deltaTime * CameraConstants.Damping);
 
             mCameraTransform.position = position;
+
+            base.RepositionCamera();
         }
     }
 }
