@@ -6,8 +6,8 @@ namespace PGGE
 {
     public abstract class TPCFollow : TPCBase
     {
-        public TPCFollow(Transform cameraTransform, Transform playerTransform)
-            : base(cameraTransform, playerTransform)
+        public TPCFollow(Transform cameraTransform, Transform playerTransform, LayerMask mask, Vector3 offset)
+            : base(cameraTransform, playerTransform, mask, offset)
         {
         }
 
@@ -28,6 +28,7 @@ namespace PGGE
             // Add the camera offset to the target position.
             // Note that we cannot just add the offset.
             // You will need to take care of the direction as well.
+
             Vector3 desiredPosition = targetPos
                 + forward * CameraConstants.CameraPositionOffset.z
                 + right * CameraConstants.CameraPositionOffset.x
@@ -38,6 +39,9 @@ namespace PGGE
             Vector3 position = Vector3.Lerp(mCameraTransform.position,
                 desiredPosition, Time.deltaTime * CameraConstants.Damping);
             mCameraTransform.position = position;
+
+            //calling the method to reposition the camera here
+            base.RepositionCamera();
         }
     }
 }

@@ -17,6 +17,8 @@ namespace PGGE
             public GameObject mConnectionProgress;
             public GameObject mBtnJoinRoom;
             public GameObject mInpPlayerName;
+            public GameObject mCharacterName;
+            public GameObject mBtnNextCharacter;
 
             bool isConnecting = false;
 
@@ -40,6 +42,8 @@ namespace PGGE
                 mBtnJoinRoom.SetActive(false);
                 mInpPlayerName.SetActive(false);
                 mConnectionProgress.SetActive(true);
+                mCharacterName.SetActive(false);
+                mBtnNextCharacter.SetActive(false); ;
 
                 // we check if we are connected or not, we join if we are, 
                 // else we initiate the connection to the server.

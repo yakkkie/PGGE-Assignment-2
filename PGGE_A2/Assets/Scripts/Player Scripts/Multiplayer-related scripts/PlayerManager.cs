@@ -6,18 +6,23 @@ using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviourPunCallbacks
 {
-    public string mPlayerPrefabName;
+    public string[] mPlayerPrefabName;
     public PlayerSpawnPoints mSpawnPoints;
 
     [HideInInspector]
     public GameObject mPlayerGameObject;
+    
+    
+
     [HideInInspector]
     private ThirdPersonCamera mThirdPersonCamera;
 
     private void Start()
     {
         Transform randomSpawnTransform = mSpawnPoints.GetSpawnPoint();
-        mPlayerGameObject = PhotonNetwork.Instantiate(mPlayerPrefabName,
+    
+        string randomSpawnName = mPlayerPrefabName[Random.RandomRange(0, mPlayerPrefabName.Length)];
+        mPlayerGameObject = PhotonNetwork.Instantiate(randomSpawnName,
             randomSpawnTransform.position,
             randomSpawnTransform.rotation,
             0);
