@@ -7,11 +7,14 @@ using UnityEngine.SceneManagement;
 public class GameApp : Singleton<GameApp>
 {
     private bool mPause;
+    
 
     void Start()
     {
         mPause = false;
+        
         SceneManager.LoadScene("Menu");
+
     }
 
     // Update is called once per frame
@@ -40,6 +43,8 @@ public class GameApp : Singleton<GameApp>
             }
         }
     }    
+
+    
     
     // called first
     void OnEnable()
@@ -59,8 +64,10 @@ public class GameApp : Singleton<GameApp>
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        
         Debug.Log("OnSceneLoaded - Scene Index: " + scene.buildIndex + " Scene Name: " + scene.name);
         //Debug.Log(mode);
+
     }
 
     void OnSceneLoaded2(Scene scene, LoadSceneMode mode)

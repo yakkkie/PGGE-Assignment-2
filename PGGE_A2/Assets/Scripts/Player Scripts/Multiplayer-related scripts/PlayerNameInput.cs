@@ -29,7 +29,7 @@ public class PlayerNameInput : MonoBehaviour
 
     public void SetPlayerName()
     {
-        string value = mInputField.text;
+        string value = mInputField.text;    
         if (string.IsNullOrEmpty(value))
         {
             Debug.LogError("Player Name is null or empty");

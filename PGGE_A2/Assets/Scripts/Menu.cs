@@ -5,10 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class Menu : MonoBehaviour
 {
+    private AudioSource m_AudioSource;
     // Start is called before the first frame update
     void Start()
     {
-        
+        m_AudioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -19,13 +20,28 @@ public class Menu : MonoBehaviour
 
     public void OnClickSinglePlayer()
     {
-        //Debug.Log("Loading singleplayer game");
-        SceneManager.LoadScene("SinglePlayer");
+        StartCoroutine(Coroutine_OnClickSinglePlayer());
     }
 
     public void OnClickMultiPlayer()
     {
-        //Debug.Log("Loading multiplayer game");
+        StartCoroutine(Coroutine_OnClickMultiPlayer());
+    }
+
+
+    IEnumerator Coroutine_OnClickSinglePlayer()
+    {
+        m_AudioSource.Play();
+
+        yield return new WaitForSeconds(m_AudioSource.clip.length);
+        SceneManager.LoadScene("SinglePlayer");
+    }
+
+    IEnumerator Coroutine_OnClickMultiPlayer()
+    {
+        m_AudioSource.Play();
+
+        yield return new WaitForSeconds(m_AudioSource.clip.length);
         SceneManager.LoadScene("Multiplayer_Launcher");
     }
 

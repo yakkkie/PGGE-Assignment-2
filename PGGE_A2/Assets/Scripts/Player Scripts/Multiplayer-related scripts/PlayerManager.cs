@@ -16,13 +16,20 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
     [HideInInspector]
     private ThirdPersonCamera mThirdPersonCamera;
+    [HideInInspector]
+    private string playerPref_CharacterKey = "Character";
+    
 
     private void Start()
     {
+        string characterChosen = PlayerPrefs.GetString(playerPref_CharacterKey);
         Transform randomSpawnTransform = mSpawnPoints.GetSpawnPoint();
-    
-        string randomSpawnName = mPlayerPrefabName[Random.RandomRange(0, mPlayerPrefabName.Length)];
-        mPlayerGameObject = PhotonNetwork.Instantiate(randomSpawnName,
+
+        
+        
+        
+        
+        mPlayerGameObject = PhotonNetwork.Instantiate(characterChosen,
             randomSpawnTransform.position,
             randomSpawnTransform.rotation,
             0);

@@ -19,6 +19,7 @@ namespace PGGE
             public GameObject mInpPlayerName;
             public GameObject mCharacterName;
             public GameObject mBtnNextCharacter;
+            private AudioSource mAudioSource;
 
             bool isConnecting = false;
 
@@ -35,10 +36,12 @@ namespace PGGE
             void Start()
             {
                 mConnectionProgress.SetActive(false);
+                mAudioSource = GetComponent<AudioSource>();
             }
 
             public void Connect()
             {
+                mAudioSource.Play();
                 mBtnJoinRoom.SetActive(false);
                 mInpPlayerName.SetActive(false);
                 mConnectionProgress.SetActive(true);
