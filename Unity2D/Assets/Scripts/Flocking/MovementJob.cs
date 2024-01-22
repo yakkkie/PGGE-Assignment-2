@@ -61,7 +61,7 @@ public struct MovementJob : IJobParallelForTransform
         }
         
         targetDirection = CrossBorder(targetDirection, transform);
-        //targetDirection = AvoidObstacles(targetDirection, transform);
+        targetDirection = AvoidObstacles(targetDirection, transform);
         targetDirection.Normalize();
         
         Vector3 rotatedVectorToTarget =

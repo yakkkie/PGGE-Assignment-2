@@ -723,7 +723,7 @@ MonoBehaviour:
   maxY: 0
   maxSpeed: 25
   rotationSpeed: 100
-  BoidIncr: 100
+  BoidIncr: 1000
   NumBatches: 1024
   BatchSize: 1
   boidsCount: 1
