@@ -148,19 +148,10 @@ public class Player : MonoBehaviour
       // and then transform the crosshair position to this
       // new position.
       // first you need the RectTransform component of your mCanvas
-      RectTransform CanvasRect = mCanvas.GetComponent<RectTransform>();
+      RectTransform CanvasRect = GetCanvasRectTransform();
 
-      // then you calculate the position of the UI element.
-      // Remember that 0,0 for the mCanvas is at the centre of the screen. 
-      // But WorldToViewPortPoint treats the lower left corner as 0,0. 
-      // Because of this, you need to subtract the height / width 
-      // of the mCanvas * 0.5 to get the correct position.
 
-      Vector2 ViewportPosition = Camera.main.WorldToViewportPoint(hit.point);
-      Vector2 WorldObject_ScreenPosition = new Vector2(
-      ((ViewportPosition.x * CanvasRect.sizeDelta.x) - (CanvasRect.sizeDelta.x * 0.5f)),
-      ((ViewportPosition.y * CanvasRect.sizeDelta.y) - (CanvasRect.sizeDelta.y * 0.5f)));
-
+            Vector2 WorldObject_ScreenPosition = CalculatePositionOfCrosshair(hit, CanvasRect);
       //now you can set the position of the UI element
       mCrossHair.anchoredPosition = WorldObject_ScreenPosition;
 
@@ -228,6 +219,30 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(1.0f / RoundsPerSecond[id]);
         mFiring[id] = false;
         mBulletsInMagazine -= 1;
+    }
+
+    public RectTransform GetCanvasRectTransform()
+    {
+        return mCanvas.GetComponent<RectTransform>();
+    }
+
+    public Vector2 CalculatePositionOfCrosshair(RaycastHit hit, RectTransform CanvasRect)
+    {
+
+        // then you calculate the position of the UI element.
+        // Remember that 0,0 for the mCanvas is at the centre of the screen. 
+        // But WorldToViewPortPoint treats the lower left corner as 0,0. 
+        // Because of this, you need to subtract the height / width 
+        // of the mCanvas * 0.5 to get the correct position.
+
+        Vector2 ViewportPosition = Camera.main.WorldToViewportPoint(hit.point);
+        Vector2 WorldObject_ScreenPosition = new Vector2(
+        ((ViewportPosition.x * CanvasRect.sizeDelta.x) - (CanvasRect.sizeDelta.x * 0.5f)),
+        ((ViewportPosition.y * CanvasRect.sizeDelta.y) - (CanvasRect.sizeDelta.y * 0.5f)));
+
+        return WorldObject_ScreenPosition;
+
+
     }
 
     

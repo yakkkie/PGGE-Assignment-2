@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Realtime;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -66,17 +67,9 @@ namespace PGGE
             Vector3 direction = (mCameraTransform.position - player).normalized;
             Vector3 offset = mOffset;
 
-            Debug.DrawRay(player, direction * distance, Color.red);
 
-            if (Physics.Raycast(player, direction, out RaycastHit hit, distance, mMask)) //Raycast checks if theres an object between the player and the camera, if there is, return true
-            {
-
-
-                offset = hit.point; //gets the exact point that the ray cast hits the object
-
-                CameraTransform.position = offset; //set the camera's position to the point where the ray hit the wall
-
-            }
+            //check if there is a object between the player and the camera
+            CheckForObjects(player, distance, direction, offset);
 
 
             
@@ -147,5 +140,22 @@ namespace PGGE
 
 
         public abstract void Update();
+
+
+        void CheckForObjects(Vector3 player, float distance, Vector3 direction, Vector3 offset)
+        {
+            //draws a ray for debugging purposes
+            Debug.DrawRay(player, direction * distance, Color.red);
+
+            if (Physics.Raycast(player, direction, out RaycastHit hit, distance, mMask)) //Raycast checks if theres an object between the player and the camera, if there is, return true
+            {
+
+
+                offset = hit.point; //gets the exact point that the ray cast hits the object
+
+                CameraTransform.position = offset; //set the camera's position to the point where the ray hit the wall
+
+            }
+        }
     }
 }

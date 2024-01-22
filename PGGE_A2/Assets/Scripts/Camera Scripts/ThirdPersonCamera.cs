@@ -39,17 +39,9 @@ public class ThirdPersonCamera : MonoBehaviour
     void Start()
     {
         // Set to CameraConstants class so that other objects can use.
-        CameraConstants.Damping = mDamping;
-        CameraConstants.CameraPositionOffset = mPositionOffset;
-        CameraConstants.CameraAngleOffset = mAngleOffset;
-        CameraConstants.MinPitch = mMinPitch;
-        CameraConstants.MaxPitch = mMaxPitch;
-        CameraConstants.RotationSpeed = mRotationSpeed;
-        CameraConstants.playerHeight = mPlayer.position.y + mPlayer.localScale.y;
+        SetCameraConstants();
 
         mOffset = CameraConstants.CameraPositionOffset;
-
-
         //mThirdPersonCamera = new TPCTrack(transform, mPlayer);
         //mThirdPersonCamera = new TPCFollowTrackPosition(transform, mPlayer);
         //mThirdPersonCamera = new TPCFollowTrackPositionAndRotation(transform, mPlayer);
@@ -77,12 +69,7 @@ public class ThirdPersonCamera : MonoBehaviour
     {
         // Update the game constant parameters every frame 
         // so that changes applied on the editor can be reflected
-        CameraConstants.Damping = mDamping;
-        CameraConstants.CameraPositionOffset = mPositionOffset;
-        CameraConstants.CameraAngleOffset = mAngleOffset;
-        CameraConstants.MinPitch = mMinPitch;
-        CameraConstants.MaxPitch = mMaxPitch;
-        CameraConstants.RotationSpeed = mRotationSpeed;
+        SetCameraConstants();
 
         mThirdPersonCamera = mThirdPersonCameraDict[mCameraType];
     }
@@ -90,5 +77,19 @@ public class ThirdPersonCamera : MonoBehaviour
     void LateUpdate()
     {
         mThirdPersonCamera.Update();
+    }
+
+    void SetCameraConstants()
+    {
+        // Set to CameraConstants class so that other objects can use.
+        CameraConstants.Damping = mDamping;
+        CameraConstants.CameraPositionOffset = mPositionOffset;
+        CameraConstants.CameraAngleOffset = mAngleOffset;
+        CameraConstants.MinPitch = mMinPitch;
+        CameraConstants.MaxPitch = mMaxPitch;
+        CameraConstants.RotationSpeed = mRotationSpeed;
+        CameraConstants.playerHeight = mPlayer.position.y + mPlayer.localScale.y;
+
+        
     }
 }

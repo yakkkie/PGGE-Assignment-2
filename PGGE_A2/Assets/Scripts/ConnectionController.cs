@@ -42,11 +42,9 @@ namespace PGGE
             public void Connect()
             {
                 mAudioSource.Play();
-                mBtnJoinRoom.SetActive(false);
-                mInpPlayerName.SetActive(false);
-                mConnectionProgress.SetActive(true);
-                mCharacterName.SetActive(false);
-                mBtnNextCharacter.SetActive(false); ;
+
+                //set the UI to the connecting/loading screen
+                SetLoadingScreen(); 
 
                 // we check if we are connected or not, we join if we are, 
                 // else we initiate the connection to the server.
@@ -104,6 +102,17 @@ namespace PGGE
                     Debug.Log("We load the default room for multiplayer");
                     PhotonNetwork.LoadLevel("MultiplayerMap00");
                 }
+            }
+
+
+            private void SetLoadingScreen()
+            {
+                //disables the unnessecary ui and actives the loading multiplayer game text
+                mBtnJoinRoom.SetActive(false);
+                mInpPlayerName.SetActive(false);
+                mConnectionProgress.SetActive(true);
+                mCharacterName.SetActive(false);
+                mBtnNextCharacter.SetActive(false);
             }
         }
     }
