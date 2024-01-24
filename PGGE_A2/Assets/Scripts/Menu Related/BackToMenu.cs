@@ -14,14 +14,17 @@ public class BackToMenu : MonoBehaviour
 
     public void Back()
     {
+        //start the coroutine
         StartCoroutine(Coroutine_Back());
     }
 
     IEnumerator Coroutine_Back()
     {
 
+        //play the button sound
         m_AudioSource.Play();
 
+        //wait for the sound to play finish before going to the nextscene
         yield return new WaitForSeconds(1f);
         SceneManager.LoadScene("Menu");
     }

@@ -168,32 +168,52 @@ public class PlayerState_ATTACK : PlayerState
         // Discuss with your tutor if you find any difficulties
         // in implementing this section.        
         
-        // For tutor - start ---------------------------------------------//
         Debug.Log("Ammo count: " + mPlayer.mAmunitionCount + ", In Magazine: " + mPlayer.mBulletsInMagazine);
+
+        //check the amount of bullets in the magazine
+        CheckBulletsInMagazine();
+
+        //check the player input, if he is still trying to shoot
+        CheckPlayerWantToShoot();
+    }
+
+    void CheckBulletsInMagazine()
+    {
+        //if the amount of bullets in the mag is 0 and the player has ammo he can use to reload
         if (mPlayer.mBulletsInMagazine == 0 && mPlayer.mAmunitionCount > 0)
         {
+            //auto put the player into a reload state
             mPlayer.mFsm.SetCurrentState((int)PlayerStateType.RELOAD);
             return;
         }
-
+        //if the player has no more ammo to reload and the gun has no bullets, the player cant reload anymore
         if (mPlayer.mAmunitionCount <= 0 && mPlayer.mBulletsInMagazine <= 0)
         {
+            //auto switch player to the movement state, can no longer shoot or reload
             mPlayer.mFsm.SetCurrentState((int)PlayerStateType.MOVEMENT);
             mPlayer.NoAmmo();
             return;
         }
+    }
 
+    void CheckPlayerWantToShoot()
+    {
+        //if player is still pressing the attack button
         if (mPlayer.mAttackButtons[mAttackID])
         {
+            //set the animation to the corresponding attack
+            //call the fire method which will shoot the corresponding amount of bullets based on the attack the player does
             mPlayer.mAnimator.SetBool(mAttackName, true);
             mPlayer.Fire(AttackID);
         }
+        //if the player is no longer pressing the attack button
         else
         {
+            //stop the player's attack animation
             mPlayer.mAnimator.SetBool(mAttackName, false);
+            //switch the player back to its movement state
             mPlayer.mFsm.SetCurrentState((int)PlayerStateType.MOVEMENT);
         }
-        // For tutor - end   ---------------------------------------------//
     }
 }
 
@@ -215,16 +235,10 @@ public class PlayerState_RELOAD : PlayerState
     }
     public override void Exit()
     {
-        if (mPlayer.mAmunitionCount > mPlayer.mMaxAmunitionBeforeReload)
-        {
-            mPlayer.mBulletsInMagazine += mPlayer.mMaxAmunitionBeforeReload;
-            mPlayer.mAmunitionCount -= mPlayer.mBulletsInMagazine;
-        }
-        else if (mPlayer.mAmunitionCount > 0 && mPlayer.mAmunitionCount < mPlayer.mMaxAmunitionBeforeReload)
-        {
-            mPlayer.mBulletsInMagazine += mPlayer.mAmunitionCount;
-            mPlayer.mAmunitionCount = 0;
-        }
+        //after reload animation is over, the exit state will call
+        //now we will check for how many bullets to reload into the gun
+        //and will reduce his reserve bullets that he has
+        CalculateBulletsToReload();
     }
 
     public override void Update()
@@ -239,4 +253,27 @@ public class PlayerState_RELOAD : PlayerState
     public override void FixedUpdate()
     {
     }
+
+    void CalculateBulletsToReload () 
+    {
+        //if the player still have ammo reserved to do a full reload
+        if (mPlayer.mAmunitionCount > mPlayer.mMaxAmunitionBeforeReload)
+        {
+            //add the bullets to the magazine of the gun for the player to use
+            mPlayer.mBulletsInMagazine += mPlayer.mMaxAmunitionBeforeReload;
+            //reduce the ammount of bullets reserved 
+            mPlayer.mAmunitionCount -= mPlayer.mBulletsInMagazine;
+        }
+        //if the player does not have enough ammo to do a full reload
+        else if (mPlayer.mAmunitionCount > 0 && mPlayer.mAmunitionCount < mPlayer.mMaxAmunitionBeforeReload)
+        {
+            //add the remaining bullets into the magazine
+            mPlayer.mBulletsInMagazine += mPlayer.mAmunitionCount;
+            //set the reserved bullets to 0 since we just used it all
+            mPlayer.mAmunitionCount = 0;
+        }
+    }    
+
+
+    
 }

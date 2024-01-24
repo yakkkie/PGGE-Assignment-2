@@ -30,7 +30,7 @@ public class PlayerNameInput : MonoBehaviour
     public void SetPlayerName()
     {
         string value = mInputField.text;    
-        if (string.IsNullOrEmpty(value))
+        if (CheckInputField(value))
         {
             Debug.LogError("Player Name is null or empty");
             return;
@@ -40,5 +40,12 @@ public class PlayerNameInput : MonoBehaviour
 
         Debug.Log("Nickname entered: " + value);
     }
+
+    
+    bool CheckInputField(string valueToCheck)
+    {
+        return string.IsNullOrEmpty(valueToCheck);
+    }
+
 
 }

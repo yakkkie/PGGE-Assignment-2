@@ -22,13 +22,14 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        //get the character chosen by the player at the multiplayer lobby page
         string characterChosen = PlayerPrefs.GetString(playerPref_CharacterKey);
         Transform randomSpawnTransform = mSpawnPoints.GetSpawnPoint();
 
         
         
         
-        
+        //use the character chosen to spawn in the game world for the character to use.
         mPlayerGameObject = PhotonNetwork.Instantiate(characterChosen,
             randomSpawnTransform.position,
             randomSpawnTransform.rotation,

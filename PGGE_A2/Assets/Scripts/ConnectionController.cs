@@ -41,6 +41,7 @@ namespace PGGE
 
             public void Connect()
             {
+                //plays the join room button sound
                 mAudioSource.Play();
 
                 //set the UI to the connecting/loading screen

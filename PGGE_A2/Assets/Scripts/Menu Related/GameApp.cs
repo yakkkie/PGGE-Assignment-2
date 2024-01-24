@@ -6,12 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class GameApp : Singleton<GameApp>
 {
-    private bool mPause;
-    
+    public bool mPause;
+    private GameObject canvas;
 
     void Start()
     {
         mPause = false;
+        
         
         SceneManager.LoadScene("Menu");
 
@@ -35,11 +36,15 @@ public class GameApp : Singleton<GameApp>
             //mOnPause?.Invoke(GamePaused);
             if (GamePaused)
             {
+                canvas.SetActive(true);
                 Time.timeScale = 0;
+                
             }
             else
             {
+                canvas.SetActive(false);
                 Time.timeScale = 1;
+                
             }
         }
     }    
@@ -67,6 +72,14 @@ public class GameApp : Singleton<GameApp>
         
         Debug.Log("OnSceneLoaded - Scene Index: " + scene.buildIndex + " Scene Name: " + scene.name);
         //Debug.Log(mode);
+
+        //checks the scene if its in the multiplayer game
+        if (scene.name == "MultiplayerMap00")
+        {
+            //get the canvas and set it to false
+            canvas = GameObject.Find("PauseMenu");
+            canvas.SetActive(false);
+        }
 
     }
 

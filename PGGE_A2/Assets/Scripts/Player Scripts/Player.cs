@@ -151,7 +151,7 @@ public class Player : MonoBehaviour
       RectTransform CanvasRect = GetCanvasRectTransform();
 
 
-            Vector2 WorldObject_ScreenPosition = CalculatePositionOfCrosshair(hit, CanvasRect);
+      Vector2 WorldObject_ScreenPosition = CalculatePositionOfCrosshair(hit, CanvasRect);
       //now you can set the position of the UI element
       mCrossHair.anchoredPosition = WorldObject_ScreenPosition;
 
